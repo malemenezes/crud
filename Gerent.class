@@ -1,0 +1,72 @@
+import java.util.*;
+
+public class Gerent {
+    public List<Livr> livrs;
+    private static final String FILE_NAME = "livrs.txt";
+
+    public Gerent() {
+        livrs = new ArrayList<>();
+        loadLivrsFromFile();
+    }
+
+    private void loadLivrsFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                int id = Integer.parseInt(parts[0].trim());
+                String title = parts[1].trim();
+                String author = parts[2].trim();
+                livrs.add(new Livr(id, title, author));
+            }
+        } catch (IOException e) {
+            // File may not exist yet, ignore this for now
+        }
+    }
+
+    private void saveLivrsToFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME))) {
+            for (Livr livr : livrs) {
+                writer.println(livr.getId() + ", " + livr.getTitle() + ", " + livr.getAuthor());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createLivr(int id, String title, String author) {
+        livrs.add(new Livr(id, title, author));
+        saveLivrsToFile();
+    }
+
+    public void displayAllLivrs() {
+        for (Livr livr : livrs) {
+            System.out.println(livr);
+        }
+    }
+
+    public void updateLivr(int id, String newTitle, String newAuthor) {
+        for (Livr livr : livrs) {
+            if (livr.getId() == id) {
+                livr.title = newTitle;
+                livr.author = newAuthor;
+                saveLivrsToFile();
+                return;
+            }
+        }
+        System.out.println("Livr not found with ID: " + id);
+    }
+
+    public void deleteLivr(int id) {
+        Iterator<Livr> iterator = livrs.iterator();
+        while (iterator.hasNext()) {
+            Livr livr = iterator.next();
+            if (livr.getId() == id) {
+                iterator.remove();
+                saveLivrsToFile();
+                return;
+            }
+        }
+        System.out.println("Livr not found with ID: " + id);
+    }
+}
