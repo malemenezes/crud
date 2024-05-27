@@ -1,0 +1,66 @@
+     import java.util.Scanner;
+          
+
+    public class Main {
+    public static void main(String[] args) {
+     Scanner scanner = new Scanner(System.in);
+     Gerent gerent = new Gerent();
+      
+   while (true) {
+      System.out.println("\nMenu:");
+      System.out.println("1. Crie um livro");
+      System.out.println("2. mostre um livro");
+      System.out.println("3. atualize um livro");
+      System.out.println("4. exclua um livro");
+      System.out.println("5. saída");
+      System.out.print("digite sua escolha: ");
+
+    int choice = scanner.nextInt();
+    scanner.nextLine(); // consume newline
+
+    switch (choice) {
+      case 1:
+        System.out.print("digite o nome do livro: ");
+   String title = scanner.nextLine();
+       System.out.print("digite o nome do autor ");
+   String author = scanner.nextLine();       gerent.createLivr(gerent.livrs.size() + 1, title, author);
+      System.out.println("Livro criado!");
+        
+    break;
+       case 2:
+       System.out.println("todos os livros disponíveis");
+        gerent.displayAllLivrs();
+        
+     break;
+       case 3:
+       System.out.print("Digite o numero do livro de sua preferência ");
+      int updateId = scanner.nextInt();
+         scanner.nextLine(); 
+          System.out.print("digite um novo titulo: ");
+      String newTitle = scanner.nextLine();
+          System.out.print("digite o nome do autor: ");
+      String newAuthor = scanner.nextLine();
+           gerent.updateLivr(updateId, newTitle, newAuthor);
+        
+       break;
+          case 4:
+         System.out.print("Digite o numero do livro que quer excluir: ");
+           int deleteId = scanner.nextInt();
+            gerent.deleteLivr(deleteId);
+        
+          break;
+            case 5:
+            System.out.println("saindo do programa...");
+             System.exit(0);
+        
+          default:
+            System.out.println(" opção invalida. tente novamente.");
+                      }
+                  }
+              }
+          }
+
+  // @Test
+  // void addition() {
+  //     assertEquals(2, 1 + 1);
+  // }
